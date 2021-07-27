@@ -4,11 +4,8 @@
   register: status_var_root
   tags: fs
 
-- name: Move /root in /var/root
-  command: "{{ item }}"
-  with_items:
-    - mv /root /var/root
-    - ln -s var/root /root
+- name: Move /root to /var/root
+  shell: mv /root /var/root; ln -s var/root /root
   when: not status_var_root.stat.exists
   tags: fs
 
@@ -18,11 +15,8 @@
   register: status_var_home
   tags: fs
 
-- name: Move /home in /var/home
-  command: "{{ item }}"
-  with_items:
-    - mv /home /var/home
-    - ln -s var/home /home
+- name: Move /home to /var/home
+  shell: mv /home /var/home; ln -s var/home /home
   when: not status_var_home.stat.exists
   tags: fs
 
