@@ -1,0 +1,4 @@
+---
+- hosts: lxcservers
+  roles:
+    - common

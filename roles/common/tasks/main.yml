@@ -1,0 +1,37 @@
+- name: move /root in /var/root
+  command: if [ ! -d /var/root ]; then echo Move /root to /var/root; mv /root /var/root; ln -s var/root /root; fi
+  tags: fs
+
+- name: move /home in /var/home
+  command: if [ ! -d /var/home ]; then echo Move /home to /var/home; mv /home /var/home; ln -s var/home /home; fi
+  tags: fs
+
+- name: install vimrc.local
+  template:
+    src: vimrc.local.j2
+    dest: /etc/vim/vimrc.local
+  tags: vim
+
+- name: install /root/.vimrc
+  template:
+    src: root_dotvimrc.j2
+    dest: /root/.vimrc
+  tags: vim
+
+- name: configure sources.list
+  template:
+    src: sources.list.j2
+    dest: /etc/apt/sources.list
+  tags: apt
+
+- name: configure to keep deb files in archive
+  template:
+    src: 01keep-debs.j2
+    dest: /etc/apt/apt.conf.d/01keep-debs
+  tags: apt
+
+- name: install ssh_config
+  template:
+    src: ssh_config.j2
+    dest: /etc/ssh/ssh_config
+  tags: ssh

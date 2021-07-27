@@ -1,0 +1,5 @@
+source $VIMRUNTIME/defaults.vim
+set bg=dark
+silent execute "!mkdir -p /var/local/vim/swap-" . $USER
+silent execute "!chmod 0700 /var/local/vim/swap-" . $USER
+set directory=/var/local/vim/swap-$USER/
