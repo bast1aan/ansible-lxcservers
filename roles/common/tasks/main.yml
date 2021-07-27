@@ -1,9 +1,29 @@
-- name: move /root in /var/root
-  shell: if [ ! -d /var/root ]; then echo Move /root to /var/root; mv /root /var/root; ln -s var/root /root; fi
+- name: Get status of /var/root
+  stat:
+    path: /var/root
+  register: status_var_root
   tags: fs
 
-- name: move /home in /var/home
-  shell: if [ ! -d /var/home ]; then echo Move /home to /var/home; mv /home /var/home; ln -s var/home /home; fi
+- name: Move /root in /var/root
+  command: "{{ item }}"
+  with_items:
+    - mv /root /var/root
+    - ln -s var/root /root
+  when: not status_var_root.stat.exists
+  tags: fs
+
+- name: Get status of /var/home
+  stat:
+    path: /var/home
+  register: status_var_home
+  tags: fs
+
+- name: Move /home in /var/home
+  command: "{{ item }}"
+  with_items:
+    - mv /home /var/home
+    - ln -s var/home /home
+  when: not status_var_home.stat.exists
   tags: fs
 
 - name: install vimrc.local
