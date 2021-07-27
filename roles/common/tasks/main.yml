@@ -1,9 +1,9 @@
 - name: move /root in /var/root
-  command: if [ ! -d /var/root ]; then echo Move /root to /var/root; mv /root /var/root; ln -s var/root /root; fi
+  shell: if [ ! -d /var/root ]; then echo Move /root to /var/root; mv /root /var/root; ln -s var/root /root; fi
   tags: fs
 
 - name: move /home in /var/home
-  command: if [ ! -d /var/home ]; then echo Move /home to /var/home; mv /home /var/home; ln -s var/home /home; fi
+  shell: if [ ! -d /var/home ]; then echo Move /home to /var/home; mv /home /var/home; ln -s var/home /home; fi
   tags: fs
 
 - name: install vimrc.local
