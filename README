@@ -1,0 +1,54 @@
+This playbook is for LXC containers created with the `lxc` package
+in Debian org Ubuntu, using the download template, with containers
+running Debian 10.
+
+(C) 2021 Bastiaan Welmers
+
+
+Creating the LXC container
+==========================
+See https://wiki.debian.org/LXC
+The LXC containers are created on the server with:
+
+# lxc-create -n containerhostname -t download
+Then choose Debian, Buster, amd64
+
+Next, you can start it with:
+# lxc-start containerhostname
+
+
+Making new container ready for running this playbook
+====================================================
+
+Get into the container:
+# lxc-attach containerhostname
+
+Then install openssh-server and python3:
+containerhostname # apt install openssh-server python3
+
+Next, install your pubkey in the authorized keys:
+containerhostname # cd /root
+containerhostname # mkdir .ssh
+containerhostname # vim .ssh/authorized_keys
+containerhostname # chmod 600 .ssh/authorized_keys 
+containerhostname # chmod 700 .ssh
+
+And you should be able to access your newly created host over the
+network!
+
+
+Installing python venv with ansible for playbook
+================================================
+
+$ python3 -mvenv ~/venv/ansible-lxcservers
+$ source ~/venv/ansible-lxcservers/bin/activate
+$ pip install -r requirements.txt
+
+
+Running playbook
+================
+Setup a new inventory, you can use `testlxcserver' file as an example.
+Then:
+
+$ ansible-playbook -u root --private-key=~/my_secret_ssh_key_for_my_servers -i testlxcserver lxcservers.yml
+
